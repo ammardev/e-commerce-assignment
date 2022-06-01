@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('shipping_fixed_cost')->default(0);
 
             $table->unsignedBigInteger('owner_id');
-            $table->foreign('owner_id')->references('id')->on('users');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });
