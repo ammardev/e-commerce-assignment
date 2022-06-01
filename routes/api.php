@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CartProductController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StoreSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::post('/register', [AuthenticationController::class, 'register']);
+
+Route::resource('products', ProductController::class);
+Route::patch('/stores/{store}', [StoreSettingsController::class, 'update']);
+
+Route::resource('cart-products', CartProductController::class);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
