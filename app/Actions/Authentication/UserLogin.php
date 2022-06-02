@@ -16,6 +16,6 @@ class UserLogin
             throw new AuthenticationException();
         }
 
-        return $user->createToken($deviceName)->plainTextToken;
+        return explode('|', $user->createToken($deviceName)->plainTextToken)[1];
     }
 }
