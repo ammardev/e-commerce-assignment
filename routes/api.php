@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
 
-Route::apiResource('products', ProductController::class);
+Route::apiResource('products', ProductController::class, ['except' => 'update']);
 Route::patch('/stores/{store}', [StoreSettingsController::class, 'update']);
 
 Route::apiResource('cart-products', CartProductController::class);
