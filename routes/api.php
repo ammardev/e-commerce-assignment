@@ -21,10 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/register', [AuthenticationController::class, 'register']);
 
-Route::resource('products', ProductController::class);
+Route::apiResource('products', ProductController::class);
 Route::patch('/stores/{store}', [StoreSettingsController::class, 'update']);
 
-Route::resource('cart-products', CartProductController::class);
+Route::apiResource('cart-products', CartProductController::class);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
