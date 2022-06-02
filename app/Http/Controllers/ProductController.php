@@ -9,7 +9,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return Product::paginate();
+        return Product::select([
+            'id',
+            'name',
+            'store_id',
+            'price',
+            'created_at',
+            'updated_at'
+        ])->paginate();
     }
 
     /**
