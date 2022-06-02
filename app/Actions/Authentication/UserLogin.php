@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Hash;
 class UserLogin
 {
 
-    public function login(array $input): string
+    public function login(string $email, string $password, string $deviceName): string
     {
-        $user = User::firstWhere('email', $input['email']);
-        if (!Hash::check($input['password'], $user->password)) {
+        $user = User::firstWhere('email', $email);
+        if (!Hash::check($password, $user->password)) {
             throw new AuthenticationException();
         }
 
-        return $user->createToken($input['device_name'] ?? 'Unknown Device')->plainTextToken;
+        return $user->createToken($deviceName)->plainTextToken;
     }
 }
