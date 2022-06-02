@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Authentication\CreateNewUser;
 use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
