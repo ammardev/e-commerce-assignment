@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
@@ -29,9 +29,13 @@ class ProductController extends Controller
         ])->paginate();
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $product = Product::make($request->validated());
+        $product->store_id = $request->user()->store->id;
+        $product->save();
+        
+        return response()->json($product, 201);
     }
 
     public function show(Product $product)
