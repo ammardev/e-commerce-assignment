@@ -25,8 +25,3 @@ Route::apiResource('products', ProductController::class, ['except' => 'update'])
 Route::patch('/stores/{store}', [StoreSettingsController::class, 'update']);
 
 Route::apiResource('cart-products', CartProductController::class);
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
