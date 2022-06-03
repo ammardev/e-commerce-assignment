@@ -12,7 +12,7 @@ class UserLogin
     public function login(string $email, string $password, string $deviceName): string
     {
         $user = User::firstWhere('email', $email);
-        if (!Hash::check($password, $user->password)) {
+        if (!$user || !Hash::check($password, $user->password)) {
             throw new AuthenticationException();
         }
 
