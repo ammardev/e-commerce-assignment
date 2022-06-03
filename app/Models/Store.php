@@ -9,7 +9,7 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
+    protected $guarded = [
+        'owner_id'
     ];
 }
