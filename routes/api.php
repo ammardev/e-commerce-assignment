@@ -24,4 +24,4 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::apiResource('products', ProductController::class, ['except' => 'update']);
 Route::patch('/stores/{store}', [StoreSettingsController::class, 'update']);
 
-Route::apiResource('cart-products', CartProductController::class);
+Route::apiResource('cart-products', CartProductController::class, ['except' => 'show']);
