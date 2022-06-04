@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Locale;
 
 class Product extends Model
@@ -37,15 +38,17 @@ class Product extends Model
                 }
 
                 if ($nameIndex !== false) {
-                    $columns[$nameIndex] = 'product_translations.name';
+                    $columns[$nameIndex] = DB::raw('IFNULL(product_translations.name, products.name) AS name');
                 }
 
                 if ($descriptionIndex !== false) {
-                    $columns[$descriptionIndex] = 'product_translations.description';
+                    $columns[$descriptionIndex] = DB::raw('IFNULL(product_translations.description, products.description) AS description');
                 }
                 
-                $builder->select($columns)->join('product_translations', 'product_translations.product_id', '=', 'products.id')
-                    ->where('product_translations.language', $locale);
+                $builder->select($columns)->leftJoin('product_translations', function($join) use ($locale) {
+                    $join->on('product_translations.product_id', '=', 'products.id')
+                        ->where('product_translations.language', $locale);
+                });
             });
         }
     }
