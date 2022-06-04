@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CartProductRequest;
 use App\Models\Product;
+use App\Models\Store;
 
 class CartProductController extends Controller
 {
@@ -14,7 +15,29 @@ class CartProductController extends Controller
 
     public function index()
     {
-        return auth()->user()->products()->withPivot('quantity')->get();
+        $cartItems = auth()->user()->products()->withPivot('quantity')->get();
+        $storeId = $cartItems[0]->store_id ?? null;
+
+        $store = Store::find($storeId);
+
+        $productsTotal = $cartItems->map(fn($item) => $item->price * $item->pivot->quantity)->sum();
+
+        $vat = 0;
+        if ($store && !$store->is_vat_included) {
+            $productsVat = $productsTotal * ($store->vat_percentage/100);
+            $shippingVat = $store->shipping_fixed_cost * ($store->vat_percentage/100);
+            $vat = $productsVat + $shippingVat;
+        }
+        
+        return response()->json([
+            'items' => $cartItems,
+            'totals' => [
+                'products_total' => $productsTotal,
+                'shipping_cost' => $store->shipping_fixed_cost ?? 0,
+                'vat' => $store?->is_vat_included? 'Included' : $vat,
+                'total' => $productsTotal + $vat + $store?->shipping_fixed_cost,
+            ],
+        ]);
     }
 
     public function store(CartProductRequest $request)
