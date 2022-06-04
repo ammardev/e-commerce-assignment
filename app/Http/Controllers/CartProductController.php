@@ -30,4 +30,11 @@ class CartProductController extends Controller
 
         return response()->json(['message' => 'Product added to cart']);
     }
+
+    public function destroy(Product $product)
+    {
+        auth()->user()->products()->detach($product->id);
+
+        return response()->json(['message' => 'Product removed from cart']);
+    }
 }
