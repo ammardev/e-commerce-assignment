@@ -27,7 +27,7 @@ class ProductController extends Controller
             'price',
             'created_at',
             'updated_at'
-        ])->paginate();
+        ])->latest()->paginate();
     }
 
     public function store(ProductRequest $request)
