@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class ProductTranslation extends Model
 {
     use HasFactory;
-    
-    protected $guarded = ['store_id'];
+
+    public $timestamps = false;
+    protected $guarded = [];
 
     public function setDescriptionAttribute($value)
     {
         $this->attributes['description'] = clean($value);
-    }
-
-    public function translations()
-    {
-        return $this->hasMany(ProductTranslation::class);
     }
 }
